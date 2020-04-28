@@ -1,3 +1,4 @@
+#In[]
 import numpy as np
 import time
 import matplotlib.pyplot as plt; plt.ion()
@@ -36,8 +37,8 @@ def draw_map(boundary, blocks, start, goal):
   fig = plt.figure()
   ax = fig.add_subplot(111, projection='3d')
   hb = draw_block_list(ax,blocks)
-  hs = ax.plot(start[0],start[1],start[2],'ro',markersize=7,markeredgecolor='k')
-  hg = ax.plot(goal[0],goal[1],goal[2],'go',markersize=7,markeredgecolor='k')  
+  hs = ax.plot(start[0:1],start[1:2],start[2:],'ro',markersize=7,markeredgecolor='k')
+  hg = ax.plot(goal[0:1],goal[1:2],goal[2:],'go',markersize=7,markeredgecolor='k')  
   ax.set_xlabel('X')
   ax.set_ylabel('Y')
   ax.set_zlabel('Z')
@@ -177,7 +178,7 @@ def test_monza(verbose = False):
   print('Path length: %d'%pathlength)
   print('\n')
 
-
+#In[]
 if __name__=="__main__":
   test_single_cube(True)
   test_maze()
@@ -194,3 +195,6 @@ if __name__=="__main__":
 
 
 
+
+
+# %%
