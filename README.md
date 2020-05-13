@@ -3,10 +3,18 @@
 ## Overview
 In this assignment, you will implement and compare the performance of search-based and sampling-based motion planning algorithms on several 3-D environments.
 
-### 1. main.py
+### 1. Final_A*_and_RRT*.py
+This file contains the code for both A*(Self Implemented) and RRT* (using OMPL library). 
+Under the main function uncomment the part whose map you want to generate and comment the other map codes.
+
+### 2. ompl_Solution.py
+This file contains the independent OMPL solution of all the maps. Just change the map
+path in mapfile under the main function.
+
+### 1. main.py (Reference file: Didn't use it)
 This file contains examples of how to load and display the 7 environments and how to call a motion planner and plot the planned path. Feel free to modify this file to fit your specific goals for the project. In particular, you should certainly replace Line 104 with a call to a function which checks whether the planned path intersects the boundary or any of the blocks in the environment.
 
-### 2. Planner.py
+### 2. Planner.py (Simple planner implemented. Didn't use)
 This file contains an implementation of a baseline planner. The baseline planner gets stuck in complex environments and is not very careful with collision checking. Feel free to modify this file in any way necessary for your own implementation.
 
 ### 3. maps
