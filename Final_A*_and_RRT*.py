@@ -208,11 +208,11 @@ def test_single_cube(res,epsi,verbose = False):
     start = np.array([2.3, 2.3, 1.3])
     goal = np.array([7.0, 7.0, 5.5])
     t0 = tic()
-    path=A_Star_Algo(res,epsi,start,goal,'./maps/single_cube.txt')
+    path=A_Star_Algo(res,epsi,start,goal,'./maps/single_cube.txt') # Call A* Algo function
     toc(t0,"Planning")
     success, pathlength = runtest('./maps/single_cube.txt', start, goal, path, verbose)
     print('Success: %r'%success)
-    print('Path length: %d'%pathlength)
+    print('Path length using A*: %d'%pathlength)
     print('\n')
 
     
@@ -221,11 +221,11 @@ def test_maze(res,epsi,verbose = False):
     start = np.array([0.0, 0.0, 1.0])
     goal = np.array([12.0, 12.0, 5.0])
     t0 = tic()
-    path=A_Star_Algo(res,epsi,start,goal,'./maps/maze.txt')
+    path=A_Star_Algo(res,epsi,start,goal,'./maps/maze.txt') # Call A* Algo function
     toc(t0,"Planning")
     success, pathlength = runtest('./maps/maze.txt', start, goal, path, verbose)
     print('Success: %r'%success)
-    print('Path length: %d'%pathlength)
+    print('Path length using A*: %d'%pathlength)
     print('\n')
 
     
@@ -234,11 +234,11 @@ def test_window(res,epsi,verbose = False):
     start = np.array([0.2, -4.9, 0.2])
     goal = np.array([6.0, 18.0, 3.0])
     t0 = tic()
-    path=A_Star_Algo(res,epsi,start,goal,'./maps/window.txt')
+    path=A_Star_Algo(res,epsi,start,goal,'./maps/window.txt') # Call A* Algo function
     toc(t0,"Planning")
     success, pathlength = runtest('./maps/window.txt', start, goal, path, verbose)
     print('Success: %r'%success)
-    print('Path length: %d'%pathlength)
+    print('Path length using A*: %d'%pathlength)
     print('\n')
     
 def test_tower(res,epsi,verbose = False):
@@ -246,11 +246,11 @@ def test_tower(res,epsi,verbose = False):
     start = np.array([2.5, 4.0, 0.5])
     goal = np.array([4.0, 2.5, 19.5])
     t0 = tic()
-    path=A_Star_Algo(res,epsi,start,goal,'./maps/tower.txt')
+    path=A_Star_Algo(res,epsi,start,goal,'./maps/tower.txt') # Call A* Algo function
     toc(t0,"Planning")
     success, pathlength = runtest('./maps/tower.txt', start, goal, path, verbose)
     print('Success: %r'%success)
-    print('Path length: %d'%pathlength)
+    print('Path length using A*: %d'%pathlength)
     print('\n')
 
      
@@ -259,11 +259,11 @@ def test_flappy_bird(res,epsi,verbose = False):
     start = np.array([0.5, 2.5, 5.5])
     goal = np.array([19.0, 2.5, 5.5])
     t0 = tic()
-    path=A_Star_Algo(res,epsi,start,goal,'./maps/flappy_bird.txt')
+    path=A_Star_Algo(res,epsi,start,goal,'./maps/flappy_bird.txt') # Call A* Algo function
     toc(t0,"Planning")
     success, pathlength = runtest('./maps/flappy_bird.txt', start, goal, path, verbose)
     print('Success: %r'%success)
-    print('Path length: %d'%pathlength) 
+    print('Path length using A*: %d'%pathlength) 
     print('\n')
 
 
@@ -272,11 +272,11 @@ def test_room(res,epsi,verbose = False):
     start = np.array([1.0, 5.0, 1.5])
     goal = np.array([9.0, 7.0, 1.5])
     t0 = tic()
-    path=A_Star_Algo(res,epsi,start,goal,'./maps/room.txt')
+    path=A_Star_Algo(res,epsi,start,goal,'./maps/room.txt') # Call A* Algo function
     toc(t0,"Planning")
     success, pathlength = runtest('./maps/room.txt', start, goal, path, verbose)
     print('Success: %r'%success)
-    print('Path length: %d'%pathlength)
+    print('Path length using A*: %d'%pathlength)
     print('\n')
 
 
@@ -285,18 +285,19 @@ def test_monza(res,epsi,verbose = False):
     start = np.array([0.5, 1.0, 4.9])
     goal = np.array([3.8, 1.0, 0.1])
     t0 = tic()
-    path=A_Star_Algo(res,epsi,start,goal,'./maps/monza.txt')
+    path=A_Star_Algo(res,epsi,start,goal,'./maps/monza.txt') # Call A* Algo function
     toc(t0,"Planning")
     success, pathlength = runtest('./maps/monza.txt', start, goal, path, verbose)
     print('Success: %r'%success)
-    print('Path length: %d'%pathlength)
+    print('Path length using A*: %d'%pathlength)
     print('\n')
 
 
 # In[120]:
-
-
-def visualize_3D(gridmap):
+def visualize_3D(gridmap): 
+    '''
+    This function is used to visualize the 3D discreetized grid, built for each evironments.
+    '''
     x_max,y_max,z_max = gridmap.shape
 
     x_idx = np.arange(0,x_max)
@@ -318,27 +319,30 @@ def visualize_3D(gridmap):
 
 # In[146]:
 
-
-# boundary, blocks = load_map(mapfile)
-# './maps/single_cube.txt', start, goal, verbose
-def build_env(mapfile,res,start,goal):
+def build_env(mapfile,res,start,goal): 
+    '''
+    This function is used to build the 3D discreet world and accordingly transform the
+    start and goal position to the discreet world.
+    '''
     
-    boundary, blocks = load_map(mapfile)
+    boundary, blocks = load_map(mapfile) # load mapfile
     
-    start1=  np.ceil(((start-boundary[0][0:3])/res)+1)
+    start1=  np.ceil(((start-boundary[0][0:3])/res)+1) # Transform Start and Goal Position to grid coordinates
     goal1= np.ceil(((goal-boundary[0][0:3])/res)+1)
     
-    x_n= int(np.ceil(int( ( (boundary[0][3]-boundary[0][0])/res)+1 )))
-    y_n= int(np.ceil(int( ( (boundary[0][4]-boundary[0][1])/res)+1 )))
+    x_n= int(np.ceil(int( ( (boundary[0][3]-boundary[0][0])/res)+1 ))) # Discreetized grid dimensions.
+    y_n= int(np.ceil(int( ( (boundary[0][4]-boundary[0][1])/res)+1 ))) 
     z_n= int(np.ceil(int( ( (boundary[0][5]-boundary[0][2])/res)+1 )))
     
-    world= 0*np.ones((  x_n,y_n,z_n ))
+    world= 0*np.ones((  x_n,y_n,z_n )) # Initialize the world
     
-    world[:,:,0]=np.inf
-    world[0,:,:]=np.inf
-    world[:,0,:]=np.inf
-    print(world.shape)
-    blocks[:,0]=blocks[:,0]-boundary[0][0]
+    world[:,:,0]=np.inf # Initialize the boundary walls
+    world[0,:,:]=np.inf # Initialize the boundary walls
+    world[:,0,:]=np.inf # Initialize the boundary walls
+
+    # print(world.shape)
+    #-------------# convert the block/obstacle dimensions to grid coordinates-----------
+    blocks[:,0]=blocks[:,0]-boundary[0][0] 
     blocks[:,1]=blocks[:,1]-boundary[0][1]
     blocks[:,2]=blocks[:,2]-boundary[0][2]
     
@@ -347,13 +351,14 @@ def build_env(mapfile,res,start,goal):
     blocks[:,5]=blocks[:,5]-boundary[0][2]
         
     grid_block=(np.ceil(((blocks)/res)+1)).astype(np.int)
-    
+    #-----------------------------------------------------------------------------------
+    # Initialze the walls of the enviroment in disceet world. 
     for i in np.arange(len(blocks)):
         world[ grid_block[i][0]-1 : grid_block[i][3]+1,
                grid_block[i][1]-1 : grid_block[i][4]+1,
                grid_block[i][2]-1 : grid_block[i][5]+1] =np.inf
 
-    return world, start1, goal1
+    return world, start1, goal1 # Return the discreet ccordinates and world
 
     
 
@@ -361,8 +366,11 @@ def build_env(mapfile,res,start,goal):
 # In[122]:
 
 
-def children_of(cell):
-    # numofdirs = 26
+def children_of(cell): 
+    '''
+    This function return an array of the coordinates of 26 
+    surrounding cells of the given cell. 
+    '''
     [dX,dY,dZ] = np.meshgrid([-1,0,1],[-1,0,1],[-1,0,1])
     dR = np.vstack((dX.flatten(),dY.flatten(),dZ.flatten()))
     dR = np.delete(dR,13,axis=1)
@@ -373,7 +381,10 @@ def children_of(cell):
 # In[123]:
 
 
-def huristic(cell,goal,ep):
+def huristic(cell,goal,ep): 
+    '''
+    Returns Huristic fuction value from a given cell to goal. 
+    '''
     h= round((ep*np.sqrt(np.sum((goal-cell)**2))),3)
     return h
 
@@ -382,24 +393,19 @@ def huristic(cell,goal,ep):
 
 
 def c_ij(cell_i,cell_j):
+    '''
+    This function returns the distance between 2 cells i.e. cell_i and cell_j.
+    '''
     dist= round((np.sqrt(np.sum((cell_i-cell_j)**2))),3)
     return dist
 
 
 # In[125]:
 
-
-# OPEN_huri.update()
-# def cost_Hur(OPEN_huri,epsi):
-#     for d in OPEN_huri:
-#         OPEN_huri.updateitem(d, new_world[d]+ epsi*(huristic(d,goal,epsi)))
-#     return OPEN_huri
-
-
-# In[126]:
-
-
-def extract_path(Parent,start, goal, mapfile,res):
+def extract_path(Parent,start, goal, mapfile,res): 
+    '''
+    This function extracts the path from the Parent dictionary (defined in A* Algo function).
+    '''
     boundary, blocks = load_map(mapfile)
     
     a=goal
@@ -422,158 +428,138 @@ def extract_path(Parent,start, goal, mapfile,res):
 
 
 def A_Star_Algo(res,epsi,start1,goal1,mapfile):
+    '''
+    Implements epsilon-Consistent A* Algo on a discreet world using 
+    start pos= start1 and End pos= goal1 
+    '''
+    print('A* algo begins')
+    new_world,start,goal = build_env(mapfile,res,start1,goal1) # Get the discreet environment
+    # print(start,goal)
+    x,y,z=np.shape(new_world) # Get discreet world dimensions
+    cost_grid=np.inf*np.ones((x,y,z)) # Initialize cost grid of same dimension with each cell cost value= Infinity
 
-    new_world,start,goal = build_env(mapfile,res,start1,goal1) # Get the environment
-    print(start,goal)
-    x,y,z=np.shape(new_world)
-    cost_grid=np.inf*np.ones((x,y,z))
+    cost_grid[ tuple(start.astype(np.int)) ]=0 # Initialze start pos cost value = 0
 
-    cost_grid[ tuple(start.astype(np.int)) ]=0
-
-    OPEN = PQDict({tuple(start.astype(np.int)): cost_grid[tuple(start.astype(np.int))] }) # OPEN List
-    CLOSED=PQDict() # Closed List
-    PARENT={}
+    OPEN = PQDict({tuple(start.astype(np.int)): 0 }) # Initialze OPEN List with the start coords and its cost i.e. 0 (Priority Queue).
+    CLOSED=PQDict() # Initialize the Closed List (Priority Queue)
+    PARENT={} # Initialize a simple Parent dictionary. Will be used later to extract the path.
     itr=1
 
     while not(bool(CLOSED.get(tuple(goal) ))):
-        print(itr)
-    #     OPEN_huri=OPEN.copy()
-    #     OPEN_huri=cost_Hur(OPEN,epsi)
-    #     i=OPEN_huri.popitem()
-        i=OPEN.popitem()
+        # print(itr)
 
-    #     del OPEN_huri
-        CLOSED.additem(i[0],i[1])
+        i=OPEN.popitem() # get item 'i' with the least (cost+(epsilon * Huristic)) value.
+        CLOSED.additem(i[0],i[1]) # Put 'i' into CLOSED list
         # i[0] location i[1] cost
-        child_i= children_of(np.array([i[0]])[0])
-        for j in (child_i.T):
-    #         print(j)
-            if(j[0]<x and j[1]<y and j[2]<z and j[0]>=0 and j[1]>=0 and j[2]>=0 and (new_world[tuple(j)]==0)):
-                if (not(bool(CLOSED.get( tuple(j) )))):
+        child_i= children_of(np.array([i[0]])[0]) # Get Array of Childrens of 'i'.
+        for j in (child_i.T): 
+            '''
+            For each children 'j' of parent 'i' first check if 'j' is within the limits and then carry on with the
+            usual A* algorithm.
+            '''
+            if(j[0]<x and j[1]<y and j[2]<z and j[0]>=0 and j[1]>=0 and j[2]>=0 and (new_world[tuple(j)]==0)): # Check children coord Validity
+                if (not(bool(CLOSED.get( tuple(j) )))): 
 
-                    if (cost_grid[tuple(j)]>(cost_grid[tuple(i[0])]+ c_ij(i[0],j)) ):
-                        cost_grid[tuple(j)]=(cost_grid[tuple(i[0])]+ c_ij(i[0],j))
-                        PARENT[tuple(j)]=tuple(i[0])
+                    if (cost_grid[tuple(j)]>(cost_grid[tuple(i[0])]+ c_ij(i[0],j)) ): #Compare child node cost with (Parent cost + dist(i,j))
+                        cost_grid[tuple(j)]=(cost_grid[tuple(i[0])]+ c_ij(i[0],j)) # Update Children Cost.
+                        PARENT[tuple(j)]=tuple(i[0]) # Update the Parent of Child node 'j'
 
                         if ( bool(OPEN.get( tuple(j))) ):
-                            OPEN.updateitem(tuple(j), cost_grid[tuple(j)]+huristic((j),list(goal),epsi ))
+                            '''
+                            Update the priority of of Child node 'j'. If 'j' is present in OPEN list.
+                            '''
+                            OPEN.updateitem(tuple(j), cost_grid[tuple(j)]+huristic((j),list(goal),epsi )) 
                         else:
+                            '''
+                            If 'j' is not in OPEN list then add it to OPEN list along with its (cost_j + epsilon*huristic(j))
+                            '''
                             OPEN.additem(tuple(j), cost_grid[tuple(j)]+huristic((j),list(goal),epsi ) )
-    #         else:
-    #             continue
-        itr=itr+1           
-    path=extract_path(PARENT,start,goal,mapfile,res)
+        # itr=itr+1           
+    path=extract_path(PARENT,start,goal,mapfile,res) # extract the path and convert it into original world coordinates.
     
-    return path
-#--------OMPL RRT--------------------------
+    return path # Return the extracted ad converted path.
+
+#--------OMPL RRT* Implementation ####################################################################--------------------------
+'''
+The RRT* implementaion of the problem.
+'''
 def isValid(state):
-    # print("validity",boundary[0])
-    # print("blocks",blocks)
+    '''
+    This is the state (Robot Location) validity checker function. It checks if a 
+    state lies inside the obstacle region (returns False) or not (returns True).
+    '''
     bound=boundary[0]
-    # print('jjjjjjjjjjjjjjjjjjjjjjjjjjjj',bound)
-    # print('hhh:',state[0],state[1],state[2])
     if( state[0] > bound[0] and state[0] < bound[3] and \
         state[1] > bound[1] and state[1] < bound[4] and \
-        state[2] > bound[2] and state[2] < bound[5] ):
+        state[2] > bound[2] and state[2] < bound[5] ): # Check if State is inside the environment
     
-        # print('IN BOUND')
-        # print('inside bound',state[0],state[1],state[2])
         valid=True
-        for k in range(blocks.shape[0]):
-            # print(k,state[0],state[1],state[2])
-            # print(blocks[k,:])
+        for k in range(blocks.shape[0]): # Check the state validity w.r.t all the obstacles/blocks.
             if( (state[0] > blocks[k,0] and state[0] < blocks[k,3]) and (state[1] > blocks[k,1] and state[1] < blocks[k,4]) and (state[2] > blocks[k,2] and state[2] < blocks[k,5]) ):
-                # print('INValid: ' ,state[0],state[1],state[2],k)
+                '''
+                If state lies inside a obstacle the valid= True, else valid= False.
+                '''
                 valid =  True # State lies within kth block
-                # return False
                 break
             else:
                 valid = False # state doesn't lie in kth block
                 continue
-                # return True
-        # print('valid',valid)
+                
         if(valid==True):
             return False # State is INVALID
         else:
             return True # State is VALID
-    else:
-        # print('Out of bound')
+    else: # If state doesn't lie inside the boundary then return False.
         return False # State is Invalid
 
   
 
 
-def getPathLengthObjective(si):
+def getPathLengthObjective(si): # Define the Path length optimiation objective
     return ob.PathLengthOptimizationObjective(si)
 
 
 class MyMotionValidator(ob.MotionValidator):
+    '''
+    Define the Motion Validator Class, this class checks if the line between 
+    two states S1 and S2 is valid i.e. it doesn't lie inside any obstacle 
+    or goes out of environment bound.
+    '''
     def __init__(self, si):
         super(MyMotionValidator, self).__init__(si)
         self.si=si
     def checkMotion(self,s1, s2):
-        # print(boundary[0])
-        # print('hi....',self.si)
-        # print('S1',s1[0],s1[1],s1[2])
-        # print('S2',s2[0],s2[1],s2[2])
-        # # valid=False
-
         point1 = np.array([s1[0],s1[1],s1[2]])
         point2 = np.array([s2[0],s2[1],s2[2]])
-        line_seg = np.array([point1,point2])
-        ray = pyrr.ray.create_from_line(line_seg)
-
-        # line = np.array( s1[0], s1[1], s1[2], s2[0], s2[1], s2[2] )
-        # pyrr.ray.create_from_line(line)
-        
-        # flag=True
-        # statevalid=False
-        b=[]
+        line_seg = np.array([point1,point2]) # Define the line segment between S1 and S2.
+        ray = pyrr.ray.create_from_line(line_seg) # create a Ray connecting them.
+        b=[] # Initialze a list to store boolean values for each obstacle.
         for i in range(len(blocks)):
-            # stateInvalid=False
-            # valid=False
-            aabb = pyrr.aabb.create_from_bounds(blocks[i][0:3],blocks[i][3:6])        
-            # print('RAY', ray)
-            # print('AABB: ',aabb )
-            # print('RAY:  ', ray )
-            result1 = (ray_intersect_aabb(ray,aabb))
-            # result2 = (ray_intersect_aabb(-ray,aabb))
-            # print(result1) # None= No intersection
-            # print('S2 validity',isValid(s2))
-            # if(isValid(s2)):
+            aabb = pyrr.aabb.create_from_bounds(blocks[i][0:3],blocks[i][3:6]) # Create AABB from the Bounding box coordinates    
+            result1 = (ray_intersect_aabb(ray,aabb)) # Check if the ray coincides with the aabb block.
                 
-            if((np.all(result1)==None)):  #or(np.all(result2)!=None)) :
+            if((np.all(result1)==None)): 
+                '''
+                If no intersection then store True in list b.
+                ''' 
                 b.append(True)
-                # print('There is no intersection---------##########################################', i+1)
-                # statevalid=True # State is either intersecting with a block or lies inside a block
-                # continue
             else:
-                # print('There is intersection with: ', i+1)
+                '''
+                Else store False in list b
+                '''
                 b.append(False)
-                # statevalid=False # State is valid
-                # break
-            # else:
-            #     return False
         flag=True
         for i in b:
-            # print(i)
             flag=flag and i
-        # print('Final Flag: ', flag)
-        # print('list b: ',b)
+        # Check if all elements of b are TRUE     
         if(flag==True):
-            return True
+            return True # if yes then return True. Path is valid
         elif(flag==False):
-            return False
-
-
-def getPathLengthObjWithCostToGo(si):
-    obj = ob.PathLengthOptimizationObjective(si)
-    obj.setCostToGoHeuristic(ob.CostToGoHeuristic(ob.goalRegionCostToGo))
-    return obj
-
+            return False # Else return False
+ 
 
 # Keep these in alphabetical order and all lower case
-def allocatePlanner(si, plannerType):
+def allocatePlanner(si, plannerType): # Planner Allocater function
     if plannerType.lower() == "bfmtstar":
         return og.BFMT(si)
     elif plannerType.lower() == "bitstar":
@@ -593,59 +579,47 @@ def allocatePlanner(si, plannerType):
 
 
 # Keep these in alphabetical order and all lower case
-def allocateObjective(si, objectiveType):
-    # if objectiveType.lower() == "pathclearance":
-    #     return getClearanceObjective(si)
+def allocateObjective(si, objectiveType): # Objective allocation function
     if objectiveType.lower() == "pathlength":
         return getPathLengthObjective(si)
-    # elif objectiveType.lower() == "thresholdpathlength":
-    #     return getThresholdPathLengthObj(si)
-    # elif objectiveType.lower() == "weightedlengthandclearancecombo":
-    #     return getBalancedObjective1(si)
     else:
         ou.OMPL_ERROR("Optimization-objective is not implemented in allocation function.")
 
-
-
 def plan(runTime, plannerType, objectiveType, boundary, blocks, st,go,mapfile):
     # Construct the robot state space in which we're planning. We're
-    # planning in [0,1]x[0,1], a subset of R^3.
+    # planning R^3.
+    print('RRT * using OMPL ...')
     space = ob.RealVectorStateSpace(3)
-    # space = ob.SE3StateSpace()
-    # space=state(sp)
-    bounds = ob.RealVectorBounds(3)
 
-    # bd=np.empty(6)
-
-    # print('plan func Boundary',boundary)
+    bounds = ob.RealVectorBounds(3) # Define the environment boundaries.
     bd=boundary.astype(np.float)
 
-    bounds.low[0]=bd[0]
+    bounds.low[0]=bd[0] # X Bound
     bounds.high[0]=bd[3]
 
-    bounds.low[1]=bd[1]
+    bounds.low[1]=bd[1] # Y Bound
     bounds.high[1]=bd[4]
 
-    bounds.low[2]=bd[2]
+    bounds.low[2]=bd[2] # Z Bound
     bounds.high[2]=bd[5]
 
-    # Set the bounds of space to be in [0,1].
+    # Set the bounds of the space.
     space.setBounds(bounds)
     
     # Construct a space information instance for this state space
     si = ob.SpaceInformation(space)
-    
+
+    # Set State validity checker
     si.setStateValidityChecker(ob.StateValidityCheckerFn(isValid))
     
-
+    # Set Motion Validator
     mv = MyMotionValidator(si)    
     si.setMotionValidator(mv)
 
-    
+    # Set up the Whole system.
     si.setup()
 
-    # Set our robot's starting state to be the bottom-left corner of
-    # the environment, or (0,0).
+    # Set our robot's starting and goal state.
     start = ob.State(space)
     start[0] = st[0]
     start[1] = st[1]
@@ -662,59 +636,55 @@ def plan(runTime, plannerType, objectiveType, boundary, blocks, st,go,mapfile):
     # Set the start and goal states
     pdef.setStartAndGoalStates(start, goal)
 
-    # Create the optimization objective specified by our command-line argument.
-    # This helper function is simply a switch statement.
+    # Create the optimization objective
     pdef.setOptimizationObjective(allocateObjective(si, objectiveType))
 
-    # Construct the optimal planner specified by our command line argument.
-    # This helper function is simply a switch statement.
+    # Construct the optimal planner 
     optimizingPlanner = allocatePlanner(si, plannerType)
 
-    # Set the problem instance for our planner to solve
+    # Set the problem instance for the planner to solve
     optimizingPlanner.setProblemDefinition(pdef)
     optimizingPlanner.setup()
     
     count=0
-    print(pdef.hasApproximateSolution())
-    # attempt to solve the planning problem in the given runtime
+    # print(pdef.hasApproximateSolution())
+    
     t0=tic()
-    while(not pdef.hasExactSolution()) :
-        print(count)
-        count=count+1
-        # solved = 
-        optimizingPlanner.solve(runTime)
-        # print(pdef.hasOptimizedSolution())
+    while(not pdef.hasExactSolution()) : 
+        '''
+        WHile Exact solution is not found keep searching 
+        (For the Room map change this to "not pdef.hasApproximateSolution()")
+        '''
+        # print(count)
+        # count=count+1
+
+        optimizingPlanner.solve(runTime) # Solve the search problem in give Runtime.
+        
         if(pdef.hasExactSolution()): 
+            '''
+            IF exact solution found ((For the Room map change this to "pdef.hasApproximateSolution()"))
+            '''
             toc(t0,"Planning")
-            print('Solution Found.')
+            # print('Solution Found using RRT*.')
             path_str=pdef.getSolutionPath().printAsMatrix()
             q=re.findall(r"[-+]?\d*\.\d+|\d+", path_str) # extract floats
             w=[float(i) for i in q]   
             path=np.array( w[0:3] )
-            #   while(np.not_equal(w[-3:], go) ):
+
             for i in np.arange(3,len(w),3):
-                # print(i,i+3)
                 path=np.vstack((path,w[i:i+3] ))
 
-            # print(type(start))
-            print('Path going to runtest',path)
-            # return path
+            # print('Path found: ',path)
 
-            runtest(mapfile, st, go, path, verbose = True)
-        else:
-            print("No solution found.")
-            # return None
+            success, pathlength=runtest(mapfile, st, go, path, verbose = True)
+            print('Success: %r'%success)
+            print('Path length with RRT* Algo: %d'%pathlength)
+        # else:
+        #     print("No solution found.")
         
-
-
-
-
 #---------OMPL RRT ENDS---------------------
-# In[148]:
-
-
 #In[]
-# %matplotlib inline
+
 if __name__=="__main__":
     res=0.1
     epsi=10
@@ -762,13 +732,13 @@ if __name__=="__main__":
         ou.OMPL_ERROR("Invalid log-level integer.")
     #---------------------SINGLE_CUBE-------------
     
-    test_single_cube(res,epsi,True) # A* Solution
-    # OMPL Solution
-    mapfile='./maps/single_cube.txt'
-    boundary,blocks=load_map(mapfile)
-    start = np.array([2.3, 2.3, 1.3]) # Singlr_cube #Working
-    goal = np.array([7.0, 7.0, 5.5])
-    plan(10, args.planner, args.objective, boundary[0], blocks,start,goal,mapfile)
+    # test_single_cube(res,epsi,True) # A* Solution
+    # # OMPL Solution
+    # mapfile='./maps/single_cube.txt'
+    # boundary,blocks=load_map(mapfile)
+    # start = np.array([2.3, 2.3, 1.3]) # Singlr_cube #Working
+    # goal = np.array([7.0, 7.0, 5.5])
+    # plan(10, args.planner, args.objective, boundary[0], blocks,start,goal,mapfile)
     
     #---------------------MAZE--------------------------------------------------------------
     
@@ -792,13 +762,13 @@ if __name__=="__main__":
     
     #----------------------------MONZA-------------------------------------------------------
     
-    # test_monza(res,epsi,True) #issue # A* Solution
-    ## OMPL Solution
-    # mapfile='./maps/monza.txt'
-    # boundary,blocks=load_map(mapfile)
-    # start = np.array([0.5, 1.0, 4.9]) # Monza   1793.9816465377808 sec Working
-    # goal = np.array([3.8, 1.0, 0.1])
-    # plan(10, args.planner, args.objective, boundary[0], blocks,start,goal,mapfile)
+    test_monza(res,epsi,True) #issue # A* Solution
+    # OMPL Solution
+    mapfile='./maps/monza.txt'
+    boundary,blocks=load_map(mapfile)
+    start = np.array([0.5, 1.0, 4.9]) # Monza   1793.9816465377808 sec Working
+    goal = np.array([3.8, 1.0, 0.1])
+    plan(10, args.planner, args.objective, boundary[0], blocks,start,goal,mapfile)
     
     #----------------------------WINDOW-------------------------------------------------------    
     
