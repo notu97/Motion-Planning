@@ -165,12 +165,7 @@ def draw_block_list(ax,blocks):
 
 def runtest(mapfile, start, goal, path1, verbose = True):
     '''
-    This function:
-    * load the provided mapfile
-    * creates a motion planner
-    * plans a path from start to goal
-    * checks whether the path is collision free and reaches the goal
-    * computes the path length as a sum of the Euclidean norm of the path segments
+    This function is used to visualize the final path discovered by the A* Algo function.
     '''
     # Load a map and instantiate a motion planner
     boundary, blocks = load_map(mapfile)
@@ -189,15 +184,27 @@ def runtest(mapfile, start, goal, path1, verbose = True):
     if verbose:
         ax.plot(path[:,0],path[:,1],path[:,2],'r-')
         plt.show()
-
-    # TODO: You should verify whether the path actually intersects any of the obstacles in continuous space
-    # TODO: You can implement your own algorithm or use an existing library for segment and 
-    #       axis-aligned bounding box (AABB) intersection 
-    collision = False
+    collision=False
     goal_reached = sum((path[-1]-goal)**2) <= 0.1
     success = (not collision) and goal_reached
     pathlength = np.sum(np.sqrt(np.sum(np.diff(path,axis=0)**2,axis=1)))
     return success, pathlength
+#In[]
+
+def visualize_Nodes(mapfile, start, goal, node, verbose = True):
+    '''
+    This function is used to visualize the search tree (Just an auxiliary function).
+    '''
+    # Load a map and instantiate a motion planner
+    boundary, blocks = load_map(mapfile)
+    # MP = Planner.MyPlanner(boundary, blocks) # TODO: replace this with your own planner implementation
+
+    # Display the environment
+    if verbose:
+        fig, ax, hb, hs, hg = draw_map(boundary, blocks, start, goal)  
+        ax.scatter(node[:,0],node[:,1],node[:,2],'r-',linewidths=0.1)
+        plt.show()
+        
 
 
 # In[143]:
@@ -208,10 +215,11 @@ def test_single_cube(res,epsi,verbose = False):
     start = np.array([2.3, 2.3, 1.3])
     goal = np.array([7.0, 7.0, 5.5])
     t0 = tic()
-    path=A_Star_Algo(res,epsi,start,goal,'./maps/single_cube.txt') # Call A* Algo function
+    path,node_max=A_Star_Algo(res,epsi,start,goal,'./maps/single_cube.txt') # Call A* Algo function
     toc(t0,"Planning")
     success, pathlength = runtest('./maps/single_cube.txt', start, goal, path, verbose)
     print('Success: %r'%success)
+    print('No of nodes visited:', node_max)
     print('Path length using A*: %d'%pathlength)
     print('\n')
 
@@ -221,10 +229,11 @@ def test_maze(res,epsi,verbose = False):
     start = np.array([0.0, 0.0, 1.0])
     goal = np.array([12.0, 12.0, 5.0])
     t0 = tic()
-    path=A_Star_Algo(res,epsi,start,goal,'./maps/maze.txt') # Call A* Algo function
+    path,node_max=A_Star_Algo(res,epsi,start,goal,'./maps/maze.txt') # Call A* Algo function
     toc(t0,"Planning")
     success, pathlength = runtest('./maps/maze.txt', start, goal, path, verbose)
     print('Success: %r'%success)
+    print('No of nodes visited:', node_max)
     print('Path length using A*: %d'%pathlength)
     print('\n')
 
@@ -234,10 +243,11 @@ def test_window(res,epsi,verbose = False):
     start = np.array([0.2, -4.9, 0.2])
     goal = np.array([6.0, 18.0, 3.0])
     t0 = tic()
-    path=A_Star_Algo(res,epsi,start,goal,'./maps/window.txt') # Call A* Algo function
+    path,node_max=A_Star_Algo(res,epsi,start,goal,'./maps/window.txt') # Call A* Algo function
     toc(t0,"Planning")
     success, pathlength = runtest('./maps/window.txt', start, goal, path, verbose)
     print('Success: %r'%success)
+    print('No of nodes visited:', node_max)
     print('Path length using A*: %d'%pathlength)
     print('\n')
     
@@ -246,10 +256,11 @@ def test_tower(res,epsi,verbose = False):
     start = np.array([2.5, 4.0, 0.5])
     goal = np.array([4.0, 2.5, 19.5])
     t0 = tic()
-    path=A_Star_Algo(res,epsi,start,goal,'./maps/tower.txt') # Call A* Algo function
+    path,node_max=A_Star_Algo(res,epsi,start,goal,'./maps/tower.txt') # Call A* Algo function
     toc(t0,"Planning")
     success, pathlength = runtest('./maps/tower.txt', start, goal, path, verbose)
     print('Success: %r'%success)
+    print('No of nodes visited:', node_max)
     print('Path length using A*: %d'%pathlength)
     print('\n')
 
@@ -259,10 +270,11 @@ def test_flappy_bird(res,epsi,verbose = False):
     start = np.array([0.5, 2.5, 5.5])
     goal = np.array([19.0, 2.5, 5.5])
     t0 = tic()
-    path=A_Star_Algo(res,epsi,start,goal,'./maps/flappy_bird.txt') # Call A* Algo function
+    path, node_max=A_Star_Algo(res,epsi,start,goal,'./maps/flappy_bird.txt') # Call A* Algo function
     toc(t0,"Planning")
     success, pathlength = runtest('./maps/flappy_bird.txt', start, goal, path, verbose)
     print('Success: %r'%success)
+    print('No of nodes visited:', node_max)
     print('Path length using A*: %d'%pathlength) 
     print('\n')
 
@@ -272,10 +284,11 @@ def test_room(res,epsi,verbose = False):
     start = np.array([1.0, 5.0, 1.5])
     goal = np.array([9.0, 7.0, 1.5])
     t0 = tic()
-    path=A_Star_Algo(res,epsi,start,goal,'./maps/room.txt') # Call A* Algo function
+    path,node_max=A_Star_Algo(res,epsi,start,goal,'./maps/room.txt') # Call A* Algo function
     toc(t0,"Planning")
     success, pathlength = runtest('./maps/room.txt', start, goal, path, verbose)
     print('Success: %r'%success)
+    print('No of nodes visited:', node_max)
     print('Path length using A*: %d'%pathlength)
     print('\n')
 
@@ -285,10 +298,11 @@ def test_monza(res,epsi,verbose = False):
     start = np.array([0.5, 1.0, 4.9])
     goal = np.array([3.8, 1.0, 0.1])
     t0 = tic()
-    path=A_Star_Algo(res,epsi,start,goal,'./maps/monza.txt') # Call A* Algo function
+    path,node_max=A_Star_Algo(res,epsi,start,goal,'./maps/monza.txt') # Call A* Algo function
     toc(t0,"Planning")
     success, pathlength = runtest('./maps/monza.txt', start, goal, path, verbose)
     print('Success: %r'%success)
+    print('No of nodes visited:', node_max)
     print('Path length using A*: %d'%pathlength)
     print('\n')
 
@@ -296,7 +310,8 @@ def test_monza(res,epsi,verbose = False):
 # In[120]:
 def visualize_3D(gridmap): 
     '''
-    This function is used to visualize the 3D discreetized grid, built for each evironments.
+    This function is used to visualize the 3D discreetized grid, built for each evironments. 
+    (Just an Auxiliary fuction)
     '''
     x_max,y_max,z_max = gridmap.shape
 
@@ -434,7 +449,8 @@ def A_Star_Algo(res,epsi,start1,goal1,mapfile):
     '''
     print('A* algo begins')
     new_world,start,goal = build_env(mapfile,res,start1,goal1) # Get the discreet environment
-    # print(start,goal)
+    boundary, blocks = load_map(mapfile)
+
     x,y,z=np.shape(new_world) # Get discreet world dimensions
     cost_grid=np.inf*np.ones((x,y,z)) # Initialize cost grid of same dimension with each cell cost value= Infinity
 
@@ -444,10 +460,14 @@ def A_Star_Algo(res,epsi,start1,goal1,mapfile):
     CLOSED=PQDict() # Initialize the Closed List (Priority Queue)
     PARENT={} # Initialize a simple Parent dictionary. Will be used later to extract the path.
     itr=1
-
+    points=start1
+    node_max=0
     while not(bool(CLOSED.get(tuple(goal) ))):
         # print(itr)
 
+        if(len(OPEN)>node_max):
+            node_max=len(OPEN)
+        
         i=OPEN.popitem() # get item 'i' with the least (cost+(epsilon * Huristic)) value.
         CLOSED.additem(i[0],i[1]) # Put 'i' into CLOSED list
         # i[0] location i[1] cost
@@ -474,10 +494,18 @@ def A_Star_Algo(res,epsi,start1,goal1,mapfile):
                             If 'j' is not in OPEN list then add it to OPEN list along with its (cost_j + epsilon*huristic(j))
                             '''
                             OPEN.additem(tuple(j), cost_grid[tuple(j)]+huristic((j),list(goal),epsi ) )
+        '''
+        Uncomment the 2 lines below to store point and visualize the search tree
+        WARNING: Uncommenting these lines makes the code very slow 
+                (only window map gives a output in about 1.5 mins)
+        '''
+        # points=np.vstack((points,((np.array(OPEN)-1)*res) + (boundary[0][0:3]).T ))     
+    # visualize_Nodes(mapfile,start,goal,points,True)
+       
         # itr=itr+1           
     path=extract_path(PARENT,start,goal,mapfile,res) # extract the path and convert it into original world coordinates.
     
-    return path # Return the extracted ad converted path.
+    return path,node_max # Return the extracted ad converted path.
 
 #--------OMPL RRT* Implementation ####################################################################--------------------------
 '''
@@ -650,7 +678,7 @@ def plan(runTime, plannerType, objectiveType, boundary, blocks, st,go,mapfile):
     # print(pdef.hasApproximateSolution())
     
     t0=tic()
-    while(not pdef.hasExactSolution()) : 
+    while(not pdef.hasApproximateSolution()) : 
         '''
         WHile Exact solution is not found keep searching 
         (For the Room map change this to "not pdef.hasApproximateSolution()")
@@ -660,7 +688,7 @@ def plan(runTime, plannerType, objectiveType, boundary, blocks, st,go,mapfile):
 
         optimizingPlanner.solve(runTime) # Solve the search problem in give Runtime.
         
-        if(pdef.hasExactSolution()): 
+        if(pdef.hasApproximateSolution()): 
             '''
             IF exact solution found ((For the Room map change this to "pdef.hasApproximateSolution()"))
             '''
@@ -738,37 +766,37 @@ if __name__=="__main__":
     # boundary,blocks=load_map(mapfile)
     # start = np.array([2.3, 2.3, 1.3]) # Singlr_cube #Working
     # goal = np.array([7.0, 7.0, 5.5])
-    # plan(10, args.planner, args.objective, boundary[0], blocks,start,goal,mapfile)
+    # plan(1, args.planner, args.objective, boundary[0], blocks,start,goal,mapfile)
     
     #---------------------MAZE--------------------------------------------------------------
     
     # test_maze(res,epsi,True) # 17 minutes # A* Solution
-    ## OMPL Solution
+    # # OMPL Solution
     # mapfile='./maps/maze.txt'
     # boundary,blocks=load_map(mapfile)
     # start = np.array([0.0, 0.0, 1.0]) # Maze # Working 1301.2197613716125 sec.
     # goal = np.array([12.0, 12.0, 5.0])
-    # plan(10, args.planner, args.objective, boundary[0], blocks,start,goal,mapfile)
+    # plan(1, args.planner, args.objective, boundary[0], blocks,start,goal,mapfile)
     
     #----------------------FLAPPY_BIRD-------------------------------------------------------------
     
-    # test_flappy_bird(res,epsi,True) # A* Solution
-    # # OMPL Solution
+    test_flappy_bird(res,epsi,True) # A* Solution
+    # OMPL Solution
     # mapfile='./maps/flappy_bird.txt' 
     # boundary,blocks=load_map(mapfile)
     # start = np.array([0.5, 2.5, 5.5]) # time=30-Flappy #Working
     # goal = np.array([19, 2.5, 5.5])
-    # plan(10, args.planner, args.objective, boundary[0], blocks,start,goal,mapfile)
+    # plan(1, args.planner, args.objective, boundary[0], blocks,start,goal,mapfile)
     
     #----------------------------MONZA-------------------------------------------------------
     
-    test_monza(res,epsi,True) #issue # A* Solution
-    # OMPL Solution
-    mapfile='./maps/monza.txt'
-    boundary,blocks=load_map(mapfile)
-    start = np.array([0.5, 1.0, 4.9]) # Monza   1793.9816465377808 sec Working
-    goal = np.array([3.8, 1.0, 0.1])
-    plan(10, args.planner, args.objective, boundary[0], blocks,start,goal,mapfile)
+    # test_monza(res,epsi,True) #issue # A* Solution
+    # # OMPL Solution
+    # mapfile='./maps/monza.txt'
+    # boundary,blocks=load_map(mapfile)
+    # start = np.array([0.5, 1.0, 4.9]) # Monza   1793.9816465377808 sec Working
+    # goal = np.array([3.8, 1.0, 0.1])
+    # plan(1, args.planner, args.objective, boundary[0], blocks,start,goal,mapfile)
     
     #----------------------------WINDOW-------------------------------------------------------    
     
@@ -778,7 +806,7 @@ if __name__=="__main__":
     # boundary,blocks=load_map(mapfile)
     # start = np.array([0.2, -4.9, 0.2]) #time=150 window #Working
     # goal = np.array([6.0, 18.0, 3.0])
-    # plan(10, args.planner, args.objective, boundary[0], blocks,start,goal,mapfile)
+    # plan(1, args.planner, args.objective, boundary[0], blocks,start,goal,mapfile)
     
     #--------------------------TOWER---------------------------------------------------------
     
@@ -788,12 +816,12 @@ if __name__=="__main__":
     # boundary,blocks=load_map(mapfile)
     # start = np.array([2.5, 4.0, 0.5]) # Tower #Working
     # goal = np.array([4.0, 2.5, 19.5])
-    # plan(10, args.planner, args.objective, boundary[0], blocks,start,goal,mapfile)
+    # plan(1, args.planner, args.objective, boundary[0], blocks,start,goal,mapfile)
     
     #---------------------------ROOM--------------------------------------------------------
     
     # test_room(res,epsi,True) # A* Solution
-    ## OMPL Solution
+    # # OMPL Solution
     # mapfile='./maps/room.txt'
     # boundary,blocks=load_map(mapfile)
     # start = np.array([1, 5, 1.5]) # Room 
