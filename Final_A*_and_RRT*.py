@@ -169,8 +169,6 @@ def runtest(mapfile, start, goal, path1, verbose = True):
     '''
     # Load a map and instantiate a motion planner
     boundary, blocks = load_map(mapfile)
-    # MP = Planner.MyPlanner(boundary, blocks) # TODO: replace this with your own planner implementation
-
     # Display the environment
     if verbose:
         fig, ax, hb, hs, hg = draw_map(boundary, blocks, start, goal)  
