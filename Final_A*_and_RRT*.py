@@ -833,12 +833,12 @@ if __name__=="__main__":
     
     #---------------------------ROOM--------------------------------------------------------
     
-    test_room(res,epsi,True) # A* Solution
+    # test_room(res,epsi,True) # A* Solution
     # OMPL Solution
-    # mapfile='./maps/room.txt'
-    # boundary,blocks=load_map(mapfile)
-    # start = np.array([1, 5, 1.5]) # Room 
-    # goal = np.array([9, 7, 1.5]) # change to pdef.hasApproximateSolution()
-    # plan(10, args.planner, args.objective, boundary[0], blocks,start,goal,mapfile)
+    mapfile='./maps/room.txt'
+    boundary,blocks=load_map(mapfile)
+    start = np.array([1, 5, 1.5]) # Room 
+    goal = np.array([9, 7, 1.5]) # change to pdef.hasApproximateSolution()
+    plan(10, args.planner, args.objective, boundary[0], blocks,start,goal,mapfile)
     
 
