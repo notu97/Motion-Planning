@@ -833,7 +833,7 @@ if __name__=="__main__":
     
     #---------------------------ROOM--------------------------------------------------------
     
-    # test_room(res,epsi,True) # A* Solution
+    test_room(res,epsi,True) # A* Solution
     # OMPL Solution
     mapfile='./maps/room.txt'
     boundary,blocks=load_map(mapfile)
