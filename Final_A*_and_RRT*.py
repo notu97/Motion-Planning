@@ -728,7 +728,7 @@ def plan(runTime, plannerType, objectiveType, boundary, blocks, st,go,mapfile):
 
 if __name__=="__main__":
     res=0.1
-    epsi=10
+    epsi=90
     #----------------------------------
     parser = argparse.ArgumentParser(description='Optimal motion planning demo program.')
 
@@ -803,13 +803,13 @@ if __name__=="__main__":
     
     #----------------------------MONZA-------------------------------------------------------
     
-    test_monza(res,epsi,True) #issue # A* Solution
-    # OMPL Solution
-    mapfile='./maps/monza.txt'
-    boundary,blocks=load_map(mapfile)
-    start = np.array([0.5, 1.0, 4.9]) # Monza   1793.9816465377808 sec Working
-    goal = np.array([3.8, 1.0, 0.1])
-    plan(1, args.planner, args.objective, boundary[0], blocks,start,goal,mapfile)
+    # test_monza(res,epsi,True) #issue # A* Solution
+    # # OMPL Solution
+    # mapfile='./maps/monza.txt'
+    # boundary,blocks=load_map(mapfile)
+    # start = np.array([0.5, 1.0, 4.9]) # Monza   1793.9816465377808 sec Working
+    # goal = np.array([3.8, 1.0, 0.1])
+    # plan(1, args.planner, args.objective, boundary[0], blocks,start,goal,mapfile)
     
     #----------------------------WINDOW-------------------------------------------------------    
     
@@ -833,8 +833,8 @@ if __name__=="__main__":
     
     #---------------------------ROOM--------------------------------------------------------
     
-    # test_room(res,epsi,True) # A* Solution
-    # # OMPL Solution
+    test_room(res,epsi,True) # A* Solution
+    # OMPL Solution
     # mapfile='./maps/room.txt'
     # boundary,blocks=load_map(mapfile)
     # start = np.array([1, 5, 1.5]) # Room 
