@@ -559,30 +559,41 @@ class MyMotionValidator(ob.MotionValidator):
         point2 = np.array([s2[0],s2[1],s2[2]])
         line_seg = np.array([point1,point2]) # Define the line segment between S1 and S2.
         ray = pyrr.ray.create_from_line(line_seg) # create a Ray connecting them.
-        b=[] # Initialze a list to store boolean values for each obstacle.
+        # b=[] # Initialze a list to store boolean values for each obstacle.
         for i in range(len(blocks)):
             aabb = pyrr.aabb.create_from_bounds(blocks[i][0:3],blocks[i][3:6]) # Create AABB from the Bounding box coordinates    
             result1 = (ray_intersect_aabb(ray,aabb)) # Check if the ray coincides with the aabb block.
                 
-            if((np.all(result1)==None)): 
-                '''
-                If no intersection then store True in list b.
-                ''' 
-                b.append(True)
-            else:
-                '''
-                Else store False in list b
-                '''
-                b.append(False)
-        flag=True
-        for i in b:
-            flag=flag and i
-        # Check if all elements of b are TRUE     
-        if(flag==True):
-            return True # if yes then return True. Path is valid
-        elif(flag==False):
-            return False # Else return False
+            if result1 is not None:
+                if ((min(point1[0],point2[0]) <= result1[0] <= max(point1[0],point2[0])) and \
+                    (min(point1[1],point2[1]) <= result1[1] <= max(point1[1],point2[1])) and \
+                    (min(point1[2],point2[2]) <= result1[2] <= max(point1[2],point2[2])) ):
+                    return False
+        return True
+        '''
+        The code below is an alternate implementation of Check Motion function. 
+        It works for all the environments, but fails for ROOM enviroment. 
+        '''
+        #     if((np.all(result1)==None)): 
+        #         '''
+        #         If no intersection then store True in list b.
+        #         ''' 
+        #         b.append(True)
+        #     else:
+        #         '''
+        #         Else store False in list b
+        #         '''
+        #         b.append(False)
+        # flag=True
+        # for i in b:
+        #     flag=flag and i
+        # # Check if all elements of b are TRUE     
+        # if(flag==True):
+        #     return True # if yes then return True. Path is valid
+        # elif(flag==False):
+        #     return False # Else return False
  
+# a=og.RRTstar(si)
 
 # Keep these in alphabetical order and all lower case
 def allocatePlanner(si, plannerType): # Planner Allocater function
@@ -656,6 +667,8 @@ def plan(runTime, plannerType, objectiveType, boundary, blocks, st,go,mapfile):
     goal[1] = go[1]
     goal[2] = go[2]
 
+    ou.setLogLevel(ou.LOG_INFO)
+
     # Create a problem instance
     pdef = ob.ProblemDefinition(si)
     
@@ -676,17 +689,18 @@ def plan(runTime, plannerType, objectiveType, boundary, blocks, st,go,mapfile):
     # print(pdef.hasApproximateSolution())
     
     t0=tic()
-    while(not pdef.hasApproximateSolution()) : 
+    while(not pdef.hasExactSolution()) : 
         '''
         WHile Exact solution is not found keep searching 
         (For the Room map change this to "not pdef.hasApproximateSolution()")
         '''
         # print(count)
         # count=count+1
-
-        optimizingPlanner.solve(runTime) # Solve the search problem in give Runtime.
         
-        if(pdef.hasApproximateSolution()): 
+        optimizingPlanner.solve(runTime) # Solve the search problem in give Runtime.
+
+        # optimizingPlanner.
+        if(pdef.hasExactSolution()): 
             '''
             IF exact solution found ((For the Room map change this to "pdef.hasApproximateSolution()"))
             '''
@@ -705,6 +719,7 @@ def plan(runTime, plannerType, objectiveType, boundary, blocks, st,go,mapfile):
             success, pathlength=runtest(mapfile, st, go, path, verbose = True)
             print('Success: %r'%success)
             print('Path length with RRT* Algo: %d'%pathlength)
+    
         # else:
         #     print("No solution found.")
         
@@ -746,7 +761,7 @@ if __name__=="__main__":
         raise argparse.ArgumentTypeError(
             "argument -t/--runtime: invalid choice: %r (choose a positive number greater than 0)" \
             % (args.runtime,))
-
+    # ob.StateSampler.
     # Set the log level
     if args.info == 0:
         ou.setLogLevel(ou.LOG_WARN)
@@ -759,7 +774,7 @@ if __name__=="__main__":
     #---------------------SINGLE_CUBE-------------
     
     # test_single_cube(res,epsi,True) # A* Solution
-    # # OMPL Solution
+    # # # OMPL Solution
     # mapfile='./maps/single_cube.txt'
     # boundary,blocks=load_map(mapfile)
     # start = np.array([2.3, 2.3, 1.3]) # Singlr_cube #Working
@@ -778,8 +793,8 @@ if __name__=="__main__":
     
     #----------------------FLAPPY_BIRD-------------------------------------------------------------
     
-    test_flappy_bird(res,epsi,True) # A* Solution
-    # OMPL Solution
+    # test_flappy_bird(res,epsi,True) # A* Solution
+    # #OMPL Solution
     # mapfile='./maps/flappy_bird.txt' 
     # boundary,blocks=load_map(mapfile)
     # start = np.array([0.5, 2.5, 5.5]) # time=30-Flappy #Working
@@ -788,18 +803,18 @@ if __name__=="__main__":
     
     #----------------------------MONZA-------------------------------------------------------
     
-    # test_monza(res,epsi,True) #issue # A* Solution
-    # # OMPL Solution
-    # mapfile='./maps/monza.txt'
-    # boundary,blocks=load_map(mapfile)
-    # start = np.array([0.5, 1.0, 4.9]) # Monza   1793.9816465377808 sec Working
-    # goal = np.array([3.8, 1.0, 0.1])
-    # plan(1, args.planner, args.objective, boundary[0], blocks,start,goal,mapfile)
+    test_monza(res,epsi,True) #issue # A* Solution
+    # OMPL Solution
+    mapfile='./maps/monza.txt'
+    boundary,blocks=load_map(mapfile)
+    start = np.array([0.5, 1.0, 4.9]) # Monza   1793.9816465377808 sec Working
+    goal = np.array([3.8, 1.0, 0.1])
+    plan(1, args.planner, args.objective, boundary[0], blocks,start,goal,mapfile)
     
     #----------------------------WINDOW-------------------------------------------------------    
     
     # test_window(res,epsi,True) # A* Solution
-    # ## OMPL Solution
+    # # OMPL Solution
     # mapfile='./maps/window.txt'
     # boundary,blocks=load_map(mapfile)
     # start = np.array([0.2, -4.9, 0.2]) #time=150 window #Working
