@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Motion planning using A* and RRT* algorithm. by notu97</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Motion planning using A* and RRT* algorithm.</h1>
+        <p>ECE276B Project-2</p>
+
+        <p class="view"><a href="https://github.com/notu97/Motion-Planning">View the Project on GitHub <small>notu97/Motion-Planning</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/notu97/Motion-Planning/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/notu97/Motion-Planning/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/notu97/Motion-Planning">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="ece276b-pr2-sp20" class="anchor" href="#ece276b-pr2-sp20" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ECE276B PR2 SP20</h1>
+<h2>
+<a id="overview" class="anchor" href="#overview" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Overview</h2>
+<p>In this assignment, I implemented and compared the performance of search-based and sampling-based motion planning algorithms on several 3-D environments.</p>
+<h3>
+<a id="1-final_a_and_rrtpy-this-is-my-main-code" class="anchor" href="#1-final_a_and_rrtpy-this-is-my-main-code" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1. Final_A*_and_RRT*.py (This is my main code)</h3>
+<p>This file contains the code for both A*(Self Implemented) and RRT* (using OMPL library).
+Under the main function uncomment the map whose path you want to generate and comment the other map codes. To maps will be generated one after the other.</p>
+<h3>
+<a id="2-ompl_solutionpy" class="anchor" href="#2-ompl_solutionpy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2. ompl_Solution.py</h3>
+<p>This file contains the independent OMPL Shortest path solution of all the maps using RRT*. Just change the map
+path in mapfile under the main function.</p>
+<h3>
+<a id="3-maps" class="anchor" href="#3-maps" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3. maps</h3>
+<p>This folder contains the 7 test environments described via a rectangular outer boundary and a list of rectangular obstacles. The start and goal points for each environment are specified in main.py.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/notu97">notu97</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
