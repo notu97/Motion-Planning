@@ -1,0 +1,8 @@
+title: Motion planning using A* and RRT* algorithm.
+description: ECE276B Project-2
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-minimal
+
+gems:
+  - jekyll-mentions
